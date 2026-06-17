@@ -139,7 +139,6 @@
         </div>
     </footer>
 
-            <p class="copyright mb-0"><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
   <script src="{{ asset('assets/js/jquery.min.js') }}"></script>
   <script src="{{ asset ('assets/js/jquery-migrate-3.0.1.min.js') }}"></script>
   <script src="{{ asset ('assets/js/popper.min.js') }}"></script>
@@ -153,8 +152,6 @@
   <script src="{{ asset ('assets/js/owl.carousel.min.js') }}"></script>
   <script src="{{ asset ('assets/js/jquery.magnific-popup.min.js') }}"></script>
   <script src="{{ asset ('assets/js/scrollax.min.js') }}"></script>
-<script src="https://maps.googleapis.com/maps/api/js?key={{ env('MIX_GOOGLE_MAPS_API_KEY') }}&sensor=false"></script>
-  <script src="{{ asset ('assets/js/google-map.js') }}"></script>
   <script src="{{ asset ('assets/js/main.js') }}"></script>
   <script src="{{ asset('js/script.js') }}"></script>
 
