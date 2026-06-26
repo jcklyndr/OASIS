@@ -11,8 +11,8 @@
                 <h2 class="text-light fw-bolder mb-3 text-uppercase tracking-wider fs-5">Welcome to OASIS</h2>
                 <h1 class="display-3 fw-bold mb-4">Embark on a journey of relaxation with our On-The-Go spa retreats near airports.</h1>
                 <p class="mb-0">
-                    <a href="{{ route('about') }}" class="btn btn-primary btn-lg me-2 px-4 shadow-sm fw-semibold">Learn more</a> 
-                    <a href="{{ route('contact.form') }}" class="btn btn-outline-light btn-lg px-4 shadow-sm fw-semibold">Contact us</a>
+                    <a href="{{ route('about') }}" class="btn btn-primary btn-lg me-2 px-4 shadow-sm ">Learn more</a> 
+                    <a href="{{ route('contact.form') }}" class="btn btn-outline-light btn-lg px-4 shadow-sm ">Contact us</a>
                 </p>
             </div>
         </div>

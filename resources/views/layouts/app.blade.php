@@ -24,20 +24,23 @@
     </head>
         <body>
             <div id="app" class="bg-primary">
-                    <nav class="navbar navbar-expand-lg navbar-dark bg-dark-blur sticky-top py-3 shadow-sm bg-dark">
+                    <nav class="navbar navbar-expand-lg navbar-dark sticky-top py-3 shadow-sm bg-dark">
                         <div class="container">
-                            <a class="navbar-brand fw-bold fs-5 text-uppercase tracking-wider m-0" href="{{ route('home') }}">
-                                On-The-Go Spa  Relaxation
+                            <a class="navbar-brand fw-bold fs-5 text-uppercase m-0" href="{{ route('home') }}" style="letter-spacing: 2px;">
+                                On-The-Go Spa Relaxation
                             </a>
-                            <button class="navbar-toggler custom-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+                            
+                            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
                                 <span class="fa fa-bars"></span>
                             </button>
+                            
                             <div class="collapse navbar-collapse" id="ftco-nav">
                                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-lg-center">
                                     <li class="nav-item"><a href="{{ route('home') }}" class="nav-link fw-medium px-3">Home</a></li>
                                     <li class="nav-item"><a href="{{ route('about') }}" class="nav-link fw-medium px-3">About</a></li>
                                     <li class="nav-item"><a href="{{ route('services') }}" class="nav-link fw-medium px-3">Services</a></li>
-                                    <li class="nav-item"><a href="{{ route('contact.form') }}" class="nav-link fw-medium px-3me-2">Contact</a></li>
+                                    {{-- Inayos ang typo dito mula 'px-3me-2' patungong 'px-3 me-2' --}}
+                                    <li class="nav-item"><a href="{{ route('contact.form') }}" class="nav-link fw-medium px-3 me-2">Contact</a></li>
 
                                     @guest
                                         @if (Route::has('login'))
@@ -52,11 +55,12 @@
                                                 {{ Auth::user()->name }}
                                             </a>
 
-                                            <div class="dropdown-menu dropdown-menu-end shadow border-0 mt-2" aria-labelledby="navbarDropdown">
+                                            {{-- Tinanggal ang mt-2 para dumikit ang menu sa toggle link at hindi biglang magsara kapag ginalaw ang mouse --}}
+                                            <div class="dropdown-menu dropdown-menu-end shadow border-0 m-0" aria-labelledby="navbarDropdown">
                                                 <a class="dropdown-item py-2" href="{{ route('users.bookings') }}">
                                                     <i class="fa fa-calendar-check-o me-2 text-muted"></i> My Reservations
                                                 </a>
-                                                <hr class="dropdown-divider">
+                                                <hr class="dropdown-divider my-1">
                                                 <a class="dropdown-item py-2 text-danger" href="{{ route('logout') }}"
                                                 onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                                     <i class="fa fa-sign-out me-2"></i> {{ __('Logout') }}
@@ -137,18 +141,9 @@
             </footer>
 
         <script src="{{ asset('assets/js/jquery.min.js') }}"></script>
-        <script src="{{ asset ('assets/js/jquery-migrate-3.0.1.min.js') }}"></script>
-        <script src="{{ asset ('assets/js/popper.min.js') }}"></script>
         <script src="{{ asset ('assets/js/bootstrap.min.js') }}"></script>
-        <script src="{{ asset ('assets/js/jquery.easing.1.3.js') }}"></script>
-        <script src="{{ asset ('assets/js/jquery.waypoints.min.js') }}"></script>
-        <script src="{{ asset ('assets/js/jquery.stellar.min.js') }}"></script>
-        <script src="{{ asset ('assets/js/jquery.animateNumber.min.js') }}"></script>
         <script src="{{ asset ('assets/js/bootstrap-datepicker.js') }}"></script>
         <script src="{{ asset ('assets/js/jquery.timepicker.min.js') }}"></script>
-        <script src="{{ asset ('assets/js/owl.carousel.min.js') }}"></script>
-        <script src="{{ asset ('assets/js/jquery.magnific-popup.min.js') }}"></script>
-        <script src="{{ asset ('assets/js/scrollax.min.js') }}"></script>
         <script src="{{ asset ('assets/js/main.js') }}"></script>
         <script src="{{ asset('assets/js/chatbot.js') }}"></script>
 

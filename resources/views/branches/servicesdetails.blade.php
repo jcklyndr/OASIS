@@ -3,200 +3,199 @@
 @section('content')
 
 
-<div class="hero-wrap js-fullheight" style="margin-top:-25px; background-image: url('{{asset ('assets/images/room-2.jpg')}}');">
-  <div class="overlay"></div>
-  <div class="container">
-    <div class="row no-gutters slider-text js-fullheight align-items-center justify-content-start" data-scrollax-parent="true">
-      <div class="col-md-7 ftco-animate">
-        <br><br>
-        <h2 class="subheading">Welcome to On-The-Go Relaxation</h2>
-        <h1 class="mb-4">{{$getservicesdetails->name}}</h1>
-        <h4 class="primarycolor h1style">{{$getservicesdetails->spaservice}}</h4>
-        <!-- <p><a href="#" class="btn btn-primary">Learn more</a> <a href="#" class="btn btn-white">Contact us</a></p> -->
-      </div>
+<div class="hero-wrap js-fullheight" style="background-image:linear-gradient(rgba(15, 32, 23, 0.7), rgba(15, 32, 23, 0.3)), url('{{ asset('assets/images/' . $getservicesdetails->image) }}'); position: relative;">
+    <div class="overlay"></div>
+    <div class="container js-fullheight d-flex align-items-center">
+        <div class="row w-100 align-items-center">
+            
+    <div class="col-lg-7 col-md-6 text-white mb-5 mb-md-0">
+        <h2 class="text-white-50 text-uppercase small fw-bold" style="letter-spacing: 2px;">
+            Welcome to On-The-Go Relaxation
+        </h2>
+        <h1 class="mb-4 display-4 fw-bold text-white">
+            {{ $getservicesdetails->name }}
+        </h1>
+        <h4 class="fw-bold px-3 py-2 border border-white rounded d-inline-block text-white bg-light bg-opacity-10">
+            {{ $getservicesdetails->spaservice }}
+        </h4>
     </div>
-  </div>
+
+            {{-- KANANG SIDE: Booking Form --}}
+            <div class="col-lg-5 col-md-6 position-relative form-custom-z"> 
+                <form action="{{ route('branches.roomspaservices.booking', $getservicesdetails->id) }}" method="POST" class="p-4 p-md-5 bg-white shadow rounded text-dark">
+                    @csrf
+                    <h3 class="mb-4 font-weight-bold text-dark h4">Book Our Spa Services</h3>
+
+                    {{-- Validation/Session Alerts --}}
+                    @if(session()->has('error_dates'))
+                        <div class="alert alert-danger py-2 small">{{ session()->get('error_dates') }}</div>
+                    @endif
+                    @if(session()->has('error'))
+                        <div class="alert alert-danger py-2 small">{{ session()->get('error') }}</div>
+                    @endif
+                    @if(session()->has('errornodate'))
+                        <div class="alert alert-danger py-2 small">{{ session()->get('errornodate') }}</div>
+                    @endif
+
+                    <input type="hidden" name="roomspa_id" value="{{ $getservicesdetails->id }}">
+                    <input type="hidden" name="branch_id" value="{{ $getservicesdetails->branch_id }}">
+
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-group mb-2">
+                                <input type="email" name="email" class="form-control" placeholder="Email Address" required>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group mb-2">
+                                <input type="text" name="name" class="form-control" placeholder="Full Name" required>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group mb-3">
+                                <input type="text" name="phone_number" class="form-control" placeholder="Phone Number" required>
+                            </div>
+                        </div>
+
+                        <div class="col-6">
+                            <div class="form-group mb-2">
+                                <label class="text-dark small font-weight-bold mb-1">Check-In Date</label>
+                                <input type="text" name="checkin" class="form-control appointment_date-check-in" placeholder="YYYY-MM-DD" required>
+                            </div>
+                        </div>
+
+                        <div class="col-6">
+                            <div class="form-group mb-2">
+                                <label class="text-dark small font-weight-bold mb-1">Check-Out Date</label>
+                                <input type="text" name="checkout" class="form-control appointment_date-check-out" placeholder="YYYY-MM-DD" required>
+                            </div>
+                        </div>
+
+                        <div class="col-6">
+                            <div class="form-group mb-3">
+                                <label class="text-dark small font-weight-bold mb-1">Check-In Time</label>
+                                <input type="time" name="checkin_time" class="form-control" required>
+                            </div>
+                        </div>
+
+                        <div class="col-6">
+                            <div class="form-group mb-3">
+                                <label class="text-dark small font-weight-bold mb-1">Check-Out Time</label>
+                                <input type="time" name="checkout_time" class="form-control" required>
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <div class="form-group mt-2 mb-0">
+                                @if (isset(Auth::user()->id))
+                                    <input type="submit" value="Book and Pay Now" class="btn btn-primary py-3 w-100 font-weight-bold">
+                                @else
+                                    <p class="alert alert-danger text-center mb-0 small">Login to Book this Service</p>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
 </div>
 
-<section class="ftco-section ftco-book ftco-no-pt ftco-no-pb">
-  <div class="container">
-    <div class="row justify-content-end">
-      <div class="col-lg-4">
-      <form action="{{ route('branches.roomspaservices.booking', $getservicesdetails->id) }}" method="POST" class="appointment-form" style="margin-top: -568px;">
-    @csrf
-    <h3 class="mb-3">Book Our Spa Services</h3>
-
-    @if(session()->has('error_dates'))
-        <div class="alert alert-danger">{{ session()->get('error_dates') }}</div>
-    @endif
-    @if(session()->has('error'))
-        <div class="alert alert-danger">{{ session()->get('error') }}</div>
-    @endif
-    @if(session()->has('errornodate'))
-        <div class="alert alert-danger">{{ session()->get('errornodate') }}</div>
-    @endif
-
-    <!-- Hidden fields for roomspa_id and branch_id -->
-    <input type="hidden" name="roomspa_id" value="{{ $getservicesdetails->id }}">
-    <input type="hidden" name="branch_id" value="{{ $getservicesdetails->branch_id }}">
-
-    <div class="row">
-        <div class="col-md-12">
-            <div class="form-group">
-                <input type="text" name="email" class="form-control" placeholder="Email" required>
+{{-- BABA: Details Section --}}
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row no-gutters">
+            <div class="col-md-6 pr-md-4">
+                <div class="img mb-4 details-custom-bg"></div>
+                <h2 class="h3 font-weight-bold">The most recommended Services!</h2>
+                <p class="text-muted">Indulge in a range of carefully curated treatments designed to pamper your senses, soothe your mind, and revitalize your body. Our spa services, highly acclaimed and trusted by many, offer a blissful escape from the stresses of everyday life. From soothing massages to invigorating facials, our expert therapists deliver an exquisite experience tailored to your well-being.</p>
             </div>
-        </div>
-        <div class="col-md-12">
-            <div class="form-group">
-                <input type="text" name="name" class="form-control" placeholder="Name" required>
-            </div>
-        </div>
-        <div class="col-md-12">
-            <div class="form-group">
-                <input type="text" name="phone_number" class="form-control" placeholder="Phone Number" required>
-            </div>
-        </div>
+            
+            <div class="col-md-6 pl-md-4">
+                <div class="mb-4">
+                    <h2 class="h3 font-weight-bold mb-2">What we offer</h2>
+                    <p class="text-muted">The Most Recommended Services: Immerse yourself in a world of unparalleled relaxation and rejuvenation with our exceptional spa services.</p>
+                </div>
+                
+                <div class="row">
+                    {{-- Spa Massage --}}
+                    <div class="col-lg-6 mb-4">
+                        <h3 class="h5 font-weight-bold">Spa Massage</h3>
+                        <p class="text-muted small">A spa massage that transcends relaxation, revitalizing your body and soothing your senses.</p>
+                    </div>
 
-        <div class="col-md-6">
-            <div class="form-group">
-                <div class="input-wrap">
-                    <div class="icon"><span class="ion-md-calendar"></span></div>
-                    <input type="text" name="checkin" class="form-control appointment_date-check-in" placeholder="Check-In Date" required>
+                    {{-- Full body Massage --}}
+                    <div class="col-lg-6 mb-4">
+                        <h3 class="h5 font-weight-bold">Full body Massage</h3>
+                        <p class="text-muted small">Experience a holistic escape with our full-body massage, designed to unwind tension, promote circulation, and leave you rejuvenated from head to toe.</p>
+                    </div>
+
+                    {{-- Romantic Enchantment --}}
+                    <div class="col-lg-6 mb-4">
+                        <h3 class="h5 font-weight-bold">Romantic Enchantment</h3>
+                        <p class="text-muted small">Indulge in the epitome of relaxation and connection with our Romantic Enchantment Spa Service, a blissful experience designed to create unforgettable moments.</p>
+                    </div>
+
+                    {{-- Spa Treatment --}}
+                    <div class="col-lg-6 mb-4">
+                        <h3 class="h5 font-weight-bold">Spa treatment</h3>
+                        <p class="text-muted small">Experience rejuvenation and well-being through our spa treatment, a harmonious blend of therapeutic techniques.</p>
+                    </div>
+
+                    {{-- Hot Stone --}}
+                    <div class="col-lg-6 mb-4">
+                        <h3 class="h5 font-weight-bold">Hot stone</h3>
+                        <p class="text-muted small">Heated stones are strategically placed to melt away tension, promoting deep relaxation and vitality.</p>
+                    </div>
+
+                    {{-- Amenities --}}
+                  <div class="col-12 mb-4">
+                      <h3 class="h5 font-weight-bold mb-3">Amenities</h3>
+                      
+                      <div class="row text-muted small">
+                          
+                          {{-- Unang Column --}}
+                          <div class="col-6">
+                              <ul class="list-unstyled mb-0">
+                                  <li class="mb-2 d-flex align-items-center">
+                                      <i class="fas fa-wifi text-primary me-2"></i> Wifi Access
+                                  </li>
+                                  <li class="mb-2 d-flex align-items-center">
+                                      <i class="fas fa-paw text-primary me-2"></i> Pet Friendly
+                                  </li>
+                                  <li class="mb-2 d-flex align-items-center">
+                                      <i class="fas fa-coffee text-primary me-2"></i> Free Coffee
+                                  </li>
+                                  <li class="mb-2 d-flex align-items-center">
+                                      <i class="fas fa-user text-primary me-2"></i> Assistant Service
+                                  </li>
+                              </ul>
+                          </div>
+
+                          {{-- Pangalawang Column --}}
+                          <div class="col-6">
+                              <ul class="list-unstyled mb-0">
+                                  <li class="mb-2 d-flex align-items-center">
+                                      <i class="fas fa-snowflake text-primary me-2"></i> Air Conditioning
+                                  </li>
+                                  <li class="mb-2 d-flex align-items-center">
+                                      <i class="fas fa-shield-alt text-primary me-2"></i> Security Service
+                                  </li>
+                                  <li class="mb-2 d-flex align-items-center">
+                                      <i class="fas fa-temperature-high text-primary me-2"></i> Heating
+                                  </li>
+                                  <li class="mb-2 d-flex align-items-center">
+                                      <i class="fas fa-parking text-primary me-2"></i> Parking
+                                  </li>
+                              </ul>
+                          </div>
+
+                      </div>
+                  </div>
                 </div>
             </div>
         </div>
-
-        <div class="col-md-6">
-            <div class="form-group">
-                <div class="icon"><span class="ion-md-calendar"></span></div>
-                <input type="text" name="checkout" class="form-control appointment_date-check-out" placeholder="Check-Out Date" required>
-            </div>
-        </div>
-
-        <div class="col-md-6">
-            <div class="form-group">
-                <div class="icon"><span class="ion-md-time"></span></div>
-                <input type="time" name="checkin_time" class="form-control" placeholder="Check-In Time" required>
-            </div>
-        </div>
-
-        <div class="col-md-6">
-            <div class="form-group">
-                <div class="icon"><span class="ion-md-time"></span></div>
-                <input type="time" name="checkout_time" class="form-control" placeholder="Check-Out Time" required>
-            </div>
-        </div>
-
-        <div class="col-md-12">
-            <div class="form-group">
-                @if (isset(Auth::user()->id))
-                    <input type="submit" value="Book and Pay Now" class="btn btn-primary-custom py-3 px-4">
-                @else
-                    <p class="alert alert-danger">Login to Book this Service</p>
-                @endif
-            </div>
-        </div>
     </div>
-</form>
-
-
-
-      </div>
-    </div>
-  </div>
-</section>
-
-
-
-
-
-
-<section class="ftco-section bg-light">
-  <div class="container">
-      <div class="row no-gutters">
-          <div class="col-md-6 wrap-about">
-              <div class="img img-2 mb-4" style="background-image: url({{asset('assets/images/homepagebg2.jpg')}});">
-              </div>
-              <h2>The most recommended Services!</h2>
-              <p>Indulge in a range of carefully curated treatments designed to pamper your senses, soothe your mind, and revitalize your body.
-                 Our spa services, highly acclaimed and trusted by many, offer a blissful escape from the stresses of everyday life. From soothing massages to invigorating facials,
-                 our expert therapists deliver an exquisite experience tailored to your well-being.</p>
-          </div>
-          <div class="col-md-6 wrap-about ftco-animate">
-    <div class="heading-section">
-        <div class="pl-md-5">
-          <h2 class="mb-2">What we offer</h2>
-      </div>
-    </div>
-    <div class="pl-md-5">
-                  <p>The Most Recommended Services: Immerse yourself in a world of unparalleled relaxation and rejuvenation with our exceptional spa services.</p>
-                  <div class="row">
-          <div class="services-2 col-lg-6 d-flex w-100">
-            <div class="icon d-flex justify-content-center align-items-center">
-                  <span><svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" class="icons" x="0" y="0" viewBox="0 0 512.001 512.001" style="enable-background:new 0 0 512 512" xml:space="preserve" class=""><g><path d="m404.464 504.028-2.383-37.723c-.918-14.497-6.124-28.202-15.055-39.636a7.497 7.497 0 0 0-10.528-1.293 7.5 7.5 0 0 0-1.293 10.527c7.063 9.041 11.179 19.882 11.906 31.347l1.877 29.75H123.013l1.877-29.746c.964-15.203 7.803-29.101 19.256-39.134a56.96 56.96 0 0 1 23.78-12.393l40.505-10.011a12.008 12.008 0 0 0 9.148-11.671v-28.902c12.991 5.212 26.306 8.031 38.422 8.031 11.953 0 25.108-2.754 37.962-7.848v28.599a12.01 12.01 0 0 0 9.142 11.682l40.981 10.122a56.632 56.632 0 0 1 10.195 3.575 7.459 7.459 0 0 0 3.14.693 7.5 7.5 0 0 0 3.149-14.31 71.537 71.537 0 0 0-12.896-4.522l-38.71-9.562V358.22c22.201-12.322 40.546-30.886 51.958-52.701a7.5 7.5 0 0 0-3.169-10.122 7.496 7.496 0 0 0-10.122 3.169c-10.676 20.409-28.282 37.626-49.574 48.478-14.076 7.178-29.011 11.131-42.055 11.131-13.204 0-28.29-4.032-42.491-11.358-20.614-10.604-37.822-27.284-48.454-46.968a7.498 7.498 0 0 0-10.163-3.034 7.499 7.499 0 0 0-3.034 10.163c11.346 21.006 29.254 38.967 50.721 50.986v33.748l-38.248 9.452a71.979 71.979 0 0 0-30.067 15.672c-14.48 12.684-23.125 30.252-24.344 49.471l-2.38 37.722a7.499 7.499 0 0 0 7.485 7.972h281.952a7.5 7.5 0 0 0 7.485-7.973z" fill="#ffffff" opacity="1" data-original="#000000" class=""></path><path d="M476.765 117.484a7.5 7.5 0 0 0-7.5 7.5v153.827c0 52.609-55.661 79.299-88.841 90.526-17.64 5.971-26.648 2.801-28.398-.788-1.042-2.135.297-4.986 3.257-6.933 12.776-8.4 64.39-47.692 64.39-72.422 0-11.17-1.064-21.889-1.957-28.913a12.81 12.81 0 0 0-6.443-9.537 12.825 12.825 0 0 0-11.516-.474l-40.048 18.199a7.094 7.094 0 0 1-8.301-1.776 7.068 7.068 0 0 1-1.755-5.342 7.069 7.069 0 0 1 2.662-4.954c7.144-5.692 13.133-10.193 18.157-13.77.058-.043.12-.082.176-.126 11.899-8.456 18.291-11.638 21.413-12.83.148-.051.295-.102.439-.162 1.436-.514 2.051-.553 2.135-.556h24.56a7.5 7.5 0 0 0 7.5-7.5v-92.204a7.5 7.5 0 0 0-7.5-7.5 7.5 7.5 0 0 0-7.5 7.5v84.703h-11.953c2.057-8.797 3.863-20.076 3.344-31.34-.734-15.947-6.102-28.05-15.594-35.312-.809-26.493-7.739-47.999-20.626-63.972-9.187-11.387-21.125-19.706-35.515-24.796-4.654-24.05-23.764-45.442-48.925-54.18C260.745-3.176 216.11-7.42 160.754 48.758a7.5 7.5 0 0 0 .078 10.605 7.498 7.498 0 0 0 10.606-.078c49.567-50.302 87.729-47.129 106.064-40.763a61.877 61.877 0 0 1 14.131 7.025 61.192 61.192 0 0 0-14.494 1.268c-15.373 3.234-30.235 11.771-45.438 26.101a7.502 7.502 0 0 0 5.145 12.958 7.477 7.477 0 0 0 5.143-2.042c13.137-12.382 25.645-19.689 38.236-22.338 10.821-2.272 22.055-.591 30.447 4.477 3.678 6.461 5.849 13.116 6.506 19.09.245 2.17.308 4.297.186 6.33-.163 2.781-.663 5.602-1.499 8.459-2.63 8.988-8.589 18.345-17.815 28.006-7.443 7.795-16.164 14.922-24.861 21.221l-.007.006c-17.749 12.87-40.51 25.85-67.653 38.581-26.159 12.281-48.913 34.887-60.286 59.267-10.468-7.1-17.015-10.314-21.243-11.771-3.997-37.083-1.666-88.587 28.829-133.283a7.5 7.5 0 0 0-12.39-8.453c-32.27 47.296-35.49 101.095-31.644 140.527h-8.488v-84.703a7.5 7.5 0 0 0-7.5-7.5 7.5 7.5 0 0 0-7.5 7.5v92.204a7.5 7.5 0 0 0 7.5 7.5h24.553c.274.007 5.904.371 26.737 15.522.079.06.159.118.24.175 4.414 3.216 9.49 7.076 15.352 11.747a7.069 7.069 0 0 1 2.662 4.953 7.07 7.07 0 0 1-1.755 5.342 7.094 7.094 0 0 1-8.301 1.776l-40.048-18.199a12.834 12.834 0 0 0-11.517.474 12.808 12.808 0 0 0-6.443 9.537c-.893 7.024-1.957 17.743-1.957 28.913 0 24.73 51.613 64.022 64.39 72.422 2.96 1.946 4.299 4.798 3.257 6.933-1.751 3.587-10.759 6.757-28.399.788-33.179-11.227-88.84-37.917-88.84-90.526V124.986a7.5 7.5 0 0 0-7.5-7.5 7.5 7.5 0 0 0-7.5 7.5v153.826c0 26.975 11.861 50.702 35.256 70.522 20.52 17.386 46.008 28.201 63.776 34.214 8.543 2.891 15.869 4.112 22.047 4.112 13.308-.001 21.293-5.669 24.641-12.53 4.379-8.975.807-19.929-8.496-26.046-9.033-5.939-23.828-17.547-36.52-30.086-15.565-15.381-21.111-25.48-21.111-29.802 0-8.91.735-17.567 1.473-24.012l37.286 16.943c8.923 4.053 19.277 1.84 25.76-5.515 4.048-4.592 5.981-10.479 5.445-16.576-.537-6.097-3.469-11.555-8.257-15.37a501.39 501.39 0 0 0-11.352-8.796c9.373-22.013 30.527-43.5 54.218-54.622 26.388-12.376 48.85-25.048 66.843-37.703 50.825 18.747 69.071 57.051 78.633 90.046-4.293 3.161-9.065 6.813-14.415 11.075-4.788 3.815-7.721 9.273-8.257 15.371-.537 6.097 1.397 11.983 5.445 16.576 6.481 7.354 16.834 9.567 25.76 5.515l37.284-16.943c.738 6.444 1.473 15.103 1.473 24.012 0 4.322-5.546 14.422-21.111 29.802-12.691 12.54-27.486 24.147-36.52 30.086-9.303 6.117-12.875 17.071-8.496 26.046 3.349 6.862 11.331 12.531 24.641 12.531 6.178 0 13.506-1.222 22.047-4.112 17.769-6.013 43.257-16.829 63.777-34.214 23.395-19.819 35.256-43.547 35.256-70.522V124.987a7.5 7.5 0 0 0-7.499-7.503zm-184.037 15.51c18.074-14.745 36.746-34.863 39.38-58.02 26.932 12.211 36.773 37.497 39.545 61.273l-2.908-2.048a7.501 7.501 0 0 0-8.639 12.264l15.642 11.019c.085.06.177.1.263.156.103.066.197.142.304.203 15.357 8.867 13.594 36.688 7.131 59.202-3.335 1.57-7.614 3.95-13.119 7.523-9.861-31.54-29.235-70.316-77.599-91.572z" fill="#ffffff" opacity="1" data-original="#000000"></path></g></svg></span>
-            </div>
-            <div class="media-body pl-3">
-              <h3 class="heading">Spa Massage</h3>
-              <p>a spa massage that transcends relaxation, revitalizing your body and soothing your senses</p>
-            </div>
-          </div> 
-          <div class="services-2 col-lg-6 d-flex w-100">
-            <div class="icon d-flex justify-content-center align-items-center">
-                  <span><svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" class="icons" x="0" y="0" viewBox="0 0 945.405 945.405" style="enable-background:new 0 0 512 512" xml:space="preserve" class=""><g><path d="M615.6 894.153H0v-57.4c11.2 8.9 25.5 14.301 40.9 14.301h532.2l42.5 43.099zM266.4 51.252c-33 0-59.8 26.8-59.8 59.8 0 20.5 10.3 38.6 26.1 49.4 6.8-18.8 17.8-36.1 32.4-50.7s31.9-25.6 50.7-32.4c-10.8-15.799-28.9-26.1-49.4-26.1zm-17.1 156.701c0 63 51.101 114 114 114 62.9 0 114-51.1 114-114 0-63-51.1-114-114-114-13.399 0-26.2 2.3-38.1 6.5-32.3 11.5-58 37.1-69.4 69.4-4.2 12-6.5 24.799-6.5 38.1zm-61.9 157.299c-26.7 59.2-84.9 210.5-100.9 248.6h198.6c4.4-10.799 9.301-21.299 14.7-31.199 18.7-34.9 77.101-52.201 63.2-100.9-.1-.4-.3-.801-.4-1.301l52.301 49.602c3.899 3.699 8.6 6.699 13.6 8.6l143 54.6c4.8 1.801 9.8 2.699 14.7 2.699 16.6 0 32.2-10.1 38.399-26.5 8.101-21.199-2.5-45-23.8-53.1l-126.4-48.3c-5.9-2.3-11.301-5.7-15.9-10 0 0-111.3-105.6-111.4-105.7-4.699-4.5-10.8-7.4-17.199-9.5-1.5-.5-3.101-1-4.7-1.4-1.7-.5-3.5-1-5.3-1.4-27.801-7.4-58.7-13.7-87.3-11.2-9.4.8-19.7 3.2-27.7 8.7-9.201 6.599-13.001 17.8-17.501 27.699zM40.9 826.053h542.6l52 52.699c4.9 5 10.8 8.9 17.1 11.5 6.2 2.5 12.801 3.9 19.601 3.9h221.6c28.8 0 52-23.6 51.601-52.4-.5-28.301-24.101-50.699-52.4-50.699H693.8l-135.4-137.4c-10.5-10.701-16.7-15.1-35.5-15.1-32.4 0-482 .299-482 .299-22.6 0-40.9 18.301-40.9 40.9v105.401c0 22.599 18.3 40.9 40.9 40.9zM871 637.452c0-65.299-53-118.299-118.3-118.299s-118.3 53-118.3 118.299c0 65.301 53 118.301 118.3 118.301S871 702.852 871 637.452z" fill="#ffffff" opacity="1" data-original="#000000" ></path></g></svg></span>
-            </div>
-            <div class="media-body pl-3">
-              <h3 class="heading">Full body Massage</h3>
-              <p>Experience a holistic escape with our full-body massage, designed to unwind tension, promote circulation, and leave you rejuvenated from head to toe</p>
-            </div>
-          </div>
-          <div class="services-2 col-lg-6 d-flex w-100">
-            <div class="icon d-flex justify-content-center align-items-center">
-                  <span><svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" class="icons" x="0" y="0" viewBox="0 0 322.558 322.558" style="enable-background:new 0 0 512 512" xml:space="preserve" class=""><g><path d="M321.6 180.601c-.8-1.6-2.8-2.4-4.4-2.8-9.2 0-88.4-3.2-88.4-95.2 0-2.8-2.4-5.2-5.2-5.2-2.8 0-5.2 2.4-5.2 5.2 0 92-79.2 95.2-88 95.2-1.2 0-2.4.4-3.2 1.2-.8.4-1.2 1.2-1.6 1.6-.8 1.6-.8 3.6 0 5.2s2.8 2.8 4.8 2.8h.4c9.2 0 88 3.2 88 95.2 0 2.8 2.4 5.2 5.2 5.2 2.8 0 5.2-2.4 5.2-5.2 0-91.6 78.8-95.2 88-95.2 2 0 3.6-1.2 4.8-2.8.8-1.6.8-3.6-.4-5.2zm-98 64c-11.6-38-40-54.4-62.4-61.6 22.4-7.2 50.8-23.6 62.4-61.6 11.6 38 40 54.4 62.4 61.6-22.4 7.2-50.8 23.6-62.4 61.6zM157.6 76.601c2.8 0 5.2-2.4 5.2-5.6 0-2.8-2.4-5.2-5.2-5.2-4.8 0-48-1.6-48-52 0-2.8-2.4-5.2-5.2-5.2-2.8 0-5.2 2.4-5.2 5.2 0 50.4-43.2 52-48 52h-.4c-2.8.4-4.8 2.4-4.8 5.2s2.4 5.2 5.2 5.2c5.2 0 48 1.6 48 52 0 2.8 2.4 5.2 5.2 5.2 2.4.4 4.8-2 4.8-4.8 0-50.4 43.2-52 48-52h.4zm-53.6 22.8c-6.4-15.2-18-23.6-28.8-28.4 11.6-4.8 22.4-14 28.8-28.4 6.4 15.2 18 23.6 28.8 28.4-11.6 4.8-22.4 14-28.8 28.4zM111.6 246.201c-4.8 0-48-1.6-48-52 0-2.8-2.4-5.2-5.2-5.2-2.8 0-5.2 2.4-5.2 5.2 0 50.4-43.2 52-48 52h-.4c-2.8.4-4.8 2.4-4.8 5.2 0 2.8 2.4 5.2 5.2 5.2 5.2 0 48 1.6 48 52 0 2.8 2.4 5.2 5.2 5.2 2.4.8 4.8-1.6 4.8-4.8 0-50.4 43.2-52 48-52h.4c2.8 0 5.2-2.4 5.2-5.6 0-2.8-2.4-5.2-5.2-5.2zm-53.6 34c-6.8-15.2-18-23.6-28.8-28.4 11.6-4.8 22.4-14 28.8-28.4 6.4 15.2 18 23.6 28.8 28.4-11.6 4.8-22.4 14-28.8 28.4z" fill="#ffffff" opacity="1" data-original="#000000" ></path></g></svg></span>
-            </div>
-            <div class="media-body pl-3">
-              <h3 class="heading">Romantic Enchantment</h3>
-              <p>Indulge in the epitome of relaxation and connection with our Romantic Enchantment Spa Service,
-                 a blissful experience designed to create unforgettable moments of tranquility and intimacy.</p>
-            </div>
-          </div>      
-          <div class="services-2 col-lg-6 d-flex w-100">
-            <div class="icon d-flex justify-content-center align-items-center">
-                  <span><svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" class="icons" x="0" y="0" viewBox="0 0 512 512" style="enable-background:new 0 0 512 512" xml:space="preserve" class=""><g><path d="M264.687 412.562a10.025 10.025 0 0 0-7.067-2.929 10.03 10.03 0 0 0-7.067 2.929 10.014 10.014 0 0 0-2.929 7.067 10.03 10.03 0 0 0 2.929 7.067 10.076 10.076 0 0 0 7.067 2.929 10.09 10.09 0 0 0 7.067-2.929 10.072 10.072 0 0 0 2.929-7.067c0-2.639-1.07-5.208-2.929-7.067zM275.292 248.162c-3.302-4.424-9.565-5.335-13.99-2.034a8.95 8.95 0 0 1-5.392 1.784 8.954 8.954 0 0 1-5.352-1.757c-4.441-3.279-10.7-2.336-13.979 2.105s-2.336 10.701 2.105 13.978a28.798 28.798 0 0 0 17.225 5.666c6.305 0 12.303-1.99 17.347-5.753a9.994 9.994 0 0 0 2.036-13.989zM213.447 109.601a10.012 10.012 0 0 0-7.067-2.929 10.03 10.03 0 0 0-7.067 2.929 10.054 10.054 0 0 0-2.929 7.067c0 2.629 1.07 5.208 2.929 7.067a10.072 10.072 0 0 0 7.067 2.929c2.639 0 5.208-1.07 7.067-2.929 1.869-1.869 2.929-4.438 2.929-7.067s-1.06-5.208-2.929-7.067z" fill="#ffffff" opacity="1" data-original="#000000" class=""></path><path d="M501.854 491.931h-61.976v-36.449c0-41.225-26.015-78.43-64.736-92.581l-67.791-24.774c-2.983-1.113-4.91-3.454-4.91-5.964v-28.159c0-.787-.1-1.547-.272-2.282l30.195-17.314c.182-.104.361-.215.537-.33 13.083-8.641 21.674-24.006 22.981-41.103.02-.253.029-.508.029-.762v-37.171c0-.334-.018-.665-.05-.99a36.633 36.633 0 0 0 15.532-9.254l4.379-4.378c21.424-21.424 21.424-56.283 0-77.708l-67.49-67.49c-5.117-19.796-19.666-35.382-39.146-41.829-23.356-7.73-48.672-1.723-66.068 15.673l-60.605 60.605c-34.697 34.698-34.697 91.156 0 125.854l13.528 13.528v23.161c0 .254.01.509.029.762 1.313 17.167 9.843 32.532 22.82 41.103.179.118.362.23.548.337l30.318 17.332a9.993 9.993 0 0 0-.266 2.257v28.159c0 2.51-1.928 4.851-4.848 5.94L136.755 362.9c-38.718 14.151-64.732 51.357-64.732 92.58v36.452H10.047c-5.521 0-9.996 4.476-9.996 9.996s4.475 9.996 9.996 9.996h491.807c5.521 0 9.996-4.476 9.996-9.996s-4.475-9.997-9.996-9.997zM292.665 102.579c8.085-8.085 13.522-18.019 16.01-28.689l52.96 52.959c13.63 13.63 13.63 35.806.001 49.435l-4.379 4.378c-6.582 6.584-17.293 6.583-23.877 0l-59.4-59.399 18.685-18.684zm-126.41 98.137c-.09-.002-.178-.014-.269-.014-.024 0-.046.003-.07.004l-9.316-9.317c-26.902-26.902-26.902-70.677 0-97.58l60.605-60.604c8.553-8.553 19.876-13.121 31.511-13.121 3.753 0 7.537.484 11.272 1.453 3.395 13.592-.503 27.89-10.488 37.876l-25.441 25.441c-3.904 3.904-3.904 10.233 0 14.137a9.964 9.964 0 0 0 7.068 2.928 9.963 9.963 0 0 0 7.068-2.928l25.441-25.441c10.577-10.578 16.602-24.373 17.447-38.741a39.868 39.868 0 0 1 8.05 16.226c3.218 13.566-.747 27.55-10.605 37.408L166.255 200.716zm23.357 66.516c-7.639-5.172-12.71-14.63-13.63-25.42v-22.55l83.862-83.862 59.4 59.4a36.636 36.636 0 0 0 16.709 9.574c-.015.223-.034.444-.034.67v36.768c-.908 10.571-6.164 20.258-13.796 25.425l-53.668 30.773a9.206 9.206 0 0 0-.537.331c-7.492 4.949-16.439 4.95-23.935-.001-.179-.118-.362-.23-.548-.337l-53.823-30.771zm230.273 224.7h-41.983V446.116c0-20.118-16.368-36.486-36.486-36.486h-46.315c-5.521 0-9.996 4.476-9.996 9.996s4.475 9.996 9.996 9.996h46.315c9.094 0 16.494 7.399 16.494 16.494v45.815H153.99v-45.815c0-9.094 7.399-16.494 16.494-16.494h46.149c5.521 0 9.996-4.476 9.996-9.996s-4.475-9.996-9.996-9.996h-46.149c-20.118 0-36.486 16.368-36.486 36.486v45.815H92.015v-36.452c0-32.862 20.738-62.521 51.603-73.802l67.901-24.819c10.882-4.061 17.913-13.755 17.913-24.694v-19.138l3.82 2.184c7.016 4.557 14.857 6.835 22.699 6.835 7.844 0 15.688-2.279 22.705-6.839l3.793-2.175v19.133c0 10.942 7.032 20.635 17.977 24.718l67.853 24.798c30.867 11.28 51.606 40.939 51.606 73.803v36.449zM32.563 287.866l-7.909-9.93c-6.175-7.752-6.185-18.588-.022-26.351l8.013-10.095c3.433-4.324 2.709-10.612-1.615-14.043-4.324-3.432-10.613-2.709-14.044 1.615l-8.013 10.095c-11.98 15.093-11.963 36.163.043 51.236l7.909 9.929c6.175 7.752 6.185 18.589.023 26.351-3.433 4.323-2.709 10.612 1.615 14.044a9.954 9.954 0 0 0 6.208 2.166 9.977 9.977 0 0 0 7.836-3.781c11.981-15.093 11.963-36.162-.044-51.236z" fill="#ffffff" opacity="1" data-original="#000000" class=""></path><path d="m104.903 248.194-7.909-9.93c-6.175-7.752-6.184-18.589-.022-26.351l8.013-10.095c3.433-4.324 2.709-10.612-1.615-14.044-4.323-3.433-10.612-2.709-14.044 1.615l-8.013 10.095c-11.98 15.093-11.962 36.162.043 51.235l7.909 9.929c6.175 7.753 6.184 18.589.022 26.351-3.433 4.323-2.709 10.612 1.615 14.044a9.954 9.954 0 0 0 6.208 2.166 9.977 9.977 0 0 0 7.836-3.781c11.98-15.092 11.962-36.16-.043-51.234zM430.645 287.866l-7.909-9.93c-6.175-7.752-6.185-18.588-.022-26.351l8.013-10.095c3.433-4.324 2.709-10.612-1.615-14.044-4.323-3.432-10.612-2.709-14.044 1.615l-8.013 10.095c-11.98 15.093-11.962 36.162.043 51.235l7.909 9.93c6.175 7.753 6.184 18.59.022 26.352-3.433 4.323-2.709 10.612 1.615 14.044a9.954 9.954 0 0 0 6.208 2.166 9.977 9.977 0 0 0 7.836-3.781c11.979-15.093 11.962-36.162-.043-51.236zM502.985 248.194l-7.91-9.931c-6.175-7.752-6.184-18.588-.022-26.351l8.013-10.095c3.433-4.324 2.709-10.612-1.615-14.044-4.323-3.433-10.612-2.709-14.044 1.615l-8.013 10.095c-11.979 15.094-11.961 36.163.043 51.235l7.91 9.93c6.175 7.752 6.184 18.589.022 26.351-3.433 4.324-2.709 10.612 1.615 14.044a9.956 9.956 0 0 0 6.208 2.166 9.977 9.977 0 0 0 7.836-3.781c11.979-15.093 11.961-36.161-.043-51.234z" fill="#ffffff" opacity="1" data-original="#000000" ></path></g></svg></span>
-            </div>
-            <div class="media-body pl-3">
-              <h3 class="heading">Spa treatment</h3>
-              <p>Experience rejuvenation and well-being through our spa treatment,
-                  a harmonious blend of therapeutic techniques aimed at restoring balance to the mind, body, and spirit</p>
-            </div>
-          </div>
-          <div class="services-2 col-lg-6 d-flex w-100">
-            <div class="icon d-flex justify-content-center align-items-center">
-                  <span><svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" class="icons" x="0" y="0" viewBox="0 0 496 496" style="enable-background:new 0 0 512 512" xml:space="preserve" class=""><g><path d="M166.176 219.164a147.565 147.565 0 0 1 15.168 4.44l5.312-15.096a163.79 163.79 0 0 0-16.816-4.912l-3.664 15.568z" fill="#ffffff" opacity="1" data-original="#000000" class=""></path><path d="M496 270.828c0-22.056-17.944-40-40-40h-16c-22.056 0-40 17.944-40 40 0 9.04 3.128 17.296 8.208 24H375.8c5.072-6.704 8.2-14.96 8.2-24 0-22.056-17.944-40-40-40h-16c-22.056 0-40 17.944-40 40 0 9.16 3.216 17.512 8.424 24.264-16.4.512-32.728 2.48-48.776 5.888.112-2.048.352-4.088.352-6.152 0-2.04-.12-4.04-.232-6.048 5.008-4.408 8.232-10.776 8.232-17.952v-14.056c0-18.592-5.664-36.28-16.064-51.224-.696-47.928-39.848-86.72-87.936-86.72-2.664 0-5.288.288-7.92.528-15.736-10.64-35.552-16.528-56.08-16.528-48.52 0-88 32.304-88 72 0 10.984 3.208 21.712 9.016 31.48C3.208 217.26 0 229.58 0 242.292c0 20.536 8 39.848 22.52 54.368l1.656 1.656C26.04 358.452 75.416 406.828 136 406.828c17.976 0 35.856-4.36 51.696-12.624l-7.392-14.184c-13.568 7.072-28.888 10.808-44.304 10.808-37.464 0-69.896-21.624-85.704-53l18.392-11.496c25.408-15.888 47.136-37.56 63.248-62.824 3.848.608 7.624 1.648 11.2 3.24l39.688 17.648c15.584 6.92 32.128 10.432 49.176 10.432 0 5.624-.648 11.184-1.608 16.672-2.232-.4-4.504-.672-6.824-.672h-.864c-21.344 0-38.704 17.36-38.704 38.704a38.584 38.584 0 0 0 6.496 21.472l34.56 51.824H124c-19.848 0-36 16.152-36 36s16.152 36 36 36h159.16c24.72 0 44.84-20.12 44.84-44.84 0-8.872-2.6-17.48-7.528-24.88l-64.696-97.04a38.807 38.807 0 0 0-10.08-10.288c19.424-4.56 39.336-6.952 59.288-6.952H480v168H328v16h168v-200h-8.208c5.08-6.704 8.208-14.96 8.208-24zm-408-152c11.368 0 22.432 2.104 32.4 6.032-17.704 6.848-32.984 19.312-43.208 35.848-16.128 2.928-31.432 9.312-44.992 19-4.768 3.4-9.032 7.344-12.84 11.648C17.232 186.02 16 180.46 16 174.828c0-30.88 32.296-56 72-56zM60.2 312.764 44.176 322.78c-2.248-7.368-3.536-15.136-3.936-23.128l64.032-32.016c2.376-1.184 4.864-2.088 7.4-2.832-13.944 19.032-31.456 35.456-51.472 47.96zm129.12-42.992-39.688-17.64c-16.584-7.376-36.256-6.936-52.512 1.192l-63.536 31.768a60.728 60.728 0 0 1-12.752-19.04C35.176 235.884 79.2 214.828 128 214.828c7.72 0 15.44.512 22.928 1.528l2.144-15.848c-8.2-1.12-16.632-1.68-25.072-1.68-47.392 0-89.768 17.632-111.92 45.168-.016-.576-.08-1.136-.08-1.704 0-19.624 9.528-38.152 25.504-49.56 16.384-11.712 35.704-17.904 55.856-17.904H120v-16H98.552c13.52-15 32.88-24 53.448-24 32.272 0 59.648 21.344 68.768 50.648-15.632-12.04-34.64-18.648-54.704-18.648H160v16h6.064c19.752 0 38.312 7.688 52.28 21.656S240 237.02 240 256.772v14.056c0 4.408-3.584 8-8 8-14.8 0-29.16-3.048-42.68-9.056zM307.16 433.98a28.867 28.867 0 0 1 4.84 16.008c0 15.904-12.936 28.84-28.84 28.84H124c-11.032 0-20-8.976-20-20s8.968-20 20-20h130.944l-51.136-76.704A22.643 22.643 0 0 1 200 349.532c0-12.52 10.184-22.704 22.704-22.704h.864a22.637 22.637 0 0 1 18.888 10.112l64.704 97.04zM344 294.828h-16c-13.232 0-24-10.768-24-24s10.768-24 24-24h16c13.232 0 24 10.768 24 24s-10.768 24-24 24zm112 0h-16c-13.232 0-24-10.768-24-24s10.768-24 24-24h16c13.232 0 24 10.768 24 24s-10.768 24-24 24z" fill="#ffffff" opacity="1" data-original="#000000" class=""></path><path d="M296 176.956c0 16.2 7.744 31.68 20.704 41.4l14.496 10.872 9.592-12.8-14.496-10.872c-8.952-6.72-14.296-17.408-14.296-28.6 0-9.552 3.72-18.528 10.472-25.28 8.72-8.728 13.528-20.328 13.528-32.848 0-12.456-4.848-24.168-13.656-32.968l-12.688-12.688-11.312 11.312 12.688 12.688c5.784 5.784 8.968 13.48 8.968 21.84 0 8.064-3.144 15.64-8.84 21.344-9.776 9.776-15.16 22.776-15.16 36.6zM424 168.956c0 16.2 7.744 31.68 20.704 41.4l14.496 10.872 9.592-12.8-14.496-10.872c-8.952-6.72-14.296-17.408-14.296-28.6 0-9.552 3.72-18.528 10.472-25.28 8.72-8.728 13.528-20.328 13.528-32.848 0-12.456-4.848-24.168-13.656-32.968l-12.688-12.688-11.312 11.312 12.688 12.688c5.784 5.784 8.968 13.48 8.968 21.84 0 8.064-3.144 15.64-8.84 21.344-9.776 9.776-15.16 22.776-15.16 36.6zM380.704 146.348l14.496 10.88 9.592-12.8-14.496-10.872c-8.952-6.72-14.296-17.408-14.296-28.6h-16c0 16.2 7.744 31.68 20.704 41.392zM384 47.012c0 8.064-3.144 15.64-8.84 21.344a51.397 51.397 0 0 0-10.504 15.168l14.56 6.616a35.635 35.635 0 0 1 7.256-10.464C395.192 70.948 400 59.348 400 46.828c0-12.456-4.848-24.168-13.656-32.968L373.656 1.172l-11.312 11.312 12.688 12.688c5.784 5.784 8.968 13.48 8.968 21.84z" fill="#ffffff" opacity="1" data-original="#000000" ></path></g></svg></span>
-            </div>
-            <div class="media-body pl-3">
-              <h3 class="heading">Hot stone</h3>
-              <p> heated stones are strategically placed to melt away tension, promoting deep relaxation and a renewed sense of vitality.</p>
-            </div>
-          </div> 
-          <div class="services-2 col-lg-6 d-flex w-100">
-            <div class="icon d-flex justify-content-center align-items-center">
-                  <span><svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" class="icons" x="0" y="0" viewBox="0 0 60 60" style="enable-background:new 0 0 512 512" xml:space="preserve" class=""><g><path d="M57 19h-.162c-.014-.035-.021-.074-.036-.108a6.221 6.221 0 0 0-2.6-2.55 6.065 6.065 0 0 1-1.689-1.378 6.087 6.087 0 0 1-.641-2.111 6.173 6.173 0 0 0-1.363-3.36 6.17 6.17 0 0 0-3.361-1.363 6.087 6.087 0 0 1-2.111-.641A6.057 6.057 0 0 1 43.66 5.8a6.174 6.174 0 0 0-2.554-2.595 6.085 6.085 0 0 0-3.612.023 6.083 6.083 0 0 1-2.209.218A5.95 5.95 0 0 1 33.4 2.432 6.22 6.22 0 0 0 30 1a6.22 6.22 0 0 0-3.4 1.432 5.966 5.966 0 0 1-1.883 1.016 6.209 6.209 0 0 1-2.212-.221 6.13 6.13 0 0 0-3.612-.027 6.226 6.226 0 0 0-2.551 2.6 6.052 6.052 0 0 1-1.379 1.69 6.087 6.087 0 0 1-2.111.641 6.17 6.17 0 0 0-3.359 1.362 6.173 6.173 0 0 0-1.363 3.36 6.083 6.083 0 0 1-.64 2.109 6.037 6.037 0 0 1-1.69 1.377 6.178 6.178 0 0 0-2.6 2.577c-.01.027-.016.056-.026.084H3a3 3 0 0 0-3 3v16a3 3 0 0 0 3 3h.162c.014.035.021.074.036.108a6.226 6.226 0 0 0 2.6 2.55 6.065 6.065 0 0 1 1.689 1.378 6.087 6.087 0 0 1 .641 2.111 6.173 6.173 0 0 0 1.363 3.36 6.17 6.17 0 0 0 3.359 1.363 6.087 6.087 0 0 1 2.111.641A6.057 6.057 0 0 1 16.34 54.2a6.174 6.174 0 0 0 2.554 2.595 6.085 6.085 0 0 0 3.612-.023 6.012 6.012 0 0 1 2.209-.218 5.95 5.95 0 0 1 1.885 1.014A6.22 6.22 0 0 0 30 59a6.22 6.22 0 0 0 3.4-1.432 5.966 5.966 0 0 1 1.883-1.016 6.143 6.143 0 0 1 2.212.221 6.147 6.147 0 0 0 3.616.029 6.226 6.226 0 0 0 2.551-2.6 6.052 6.052 0 0 1 1.379-1.69 6.087 6.087 0 0 1 2.111-.641 6.17 6.17 0 0 0 3.359-1.363 6.173 6.173 0 0 0 1.363-3.36 6.083 6.083 0 0 1 .64-2.109 6.037 6.037 0 0 1 1.686-1.378 6.178 6.178 0 0 0 2.6-2.577c.01-.027.016-.056.026-.084H57a3 3 0 0 0 3-3V22a3 3 0 0 0-3-3Zm-50.1-.985a7.49 7.49 0 0 0 2.255-1.939 7.526 7.526 0 0 0 .944-2.852 4.711 4.711 0 0 1 .812-2.317 4.707 4.707 0 0 1 2.316-.812 7.5 7.5 0 0 0 2.853-.945 7.477 7.477 0 0 0 1.942-2.259 4.774 4.774 0 0 1 1.644-1.847 4.678 4.678 0 0 1 2.436.141 7.663 7.663 0 0 0 3.007.226 7.374 7.374 0 0 0 2.629-1.328A4.729 4.729 0 0 1 30 3a4.729 4.729 0 0 1 2.266 1.083A7.374 7.374 0 0 0 34.9 5.411a7.532 7.532 0 0 0 3.01-.222 4.61 4.61 0 0 1 2.432-.135A4.715 4.715 0 0 1 41.985 6.9a7.49 7.49 0 0 0 1.939 2.255 7.519 7.519 0 0 0 2.853.944 4.707 4.707 0 0 1 2.316.812 4.711 4.711 0 0 1 .812 2.317 7.531 7.531 0 0 0 .945 2.854 7.478 7.478 0 0 0 2.258 1.939 9.655 9.655 0 0 1 1.329.979h-4.249a22.981 22.981 0 0 0-40.375 0H5.565a9.686 9.686 0 0 1 1.335-.985ZM47.886 19H12.114a21 21 0 0 1 35.772 0ZM53.1 41.985a7.49 7.49 0 0 0-2.255 1.939 7.526 7.526 0 0 0-.944 2.852 4.711 4.711 0 0 1-.812 2.317 4.707 4.707 0 0 1-2.316.812 7.5 7.5 0 0 0-2.853.945 7.477 7.477 0 0 0-1.942 2.259 4.774 4.774 0 0 1-1.644 1.847 4.678 4.678 0 0 1-2.436-.141 7.627 7.627 0 0 0-3.007-.226 7.374 7.374 0 0 0-2.629 1.328A4.729 4.729 0 0 1 30 57a4.729 4.729 0 0 1-2.266-1.083 7.374 7.374 0 0 0-2.629-1.328 7.548 7.548 0 0 0-3.01.222 4.642 4.642 0 0 1-2.432.135 4.715 4.715 0 0 1-1.648-1.846 7.49 7.49 0 0 0-1.939-2.255 7.519 7.519 0 0 0-2.853-.944 4.707 4.707 0 0 1-2.316-.812 4.711 4.711 0 0 1-.812-2.317 7.531 7.531 0 0 0-.945-2.854 7.478 7.478 0 0 0-2.258-1.939A9.655 9.655 0 0 1 5.563 41h4.25a22.981 22.981 0 0 0 40.375 0h4.247a9.686 9.686 0 0 1-1.335.985ZM12.114 41h35.772a21 21 0 0 1-35.772 0ZM58 38a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V22a1 1 0 0 1 1-1h54a1 1 0 0 1 1 1Z" fill="#ffffff" opacity="1" data-original="#000000" class=""></path><path d="M10 35H9V24a1 1 0 0 0-1.707-.707l-2 2a1 1 0 0 0 1.414 1.414L7 26.414V35H6a1 1 0 0 0 0 2h4a1 1 0 0 0 0-2ZM19 23c-3.309 0-6 3.14-6 7s2.691 7 6 7 6-3.14 6-7-2.691-7-6-7Zm0 12c-2.206 0-4-2.243-4-5s1.794-5 4-5 4 2.243 4 5-1.794 5-4 5ZM33 23c-3.309 0-6 3.14-6 7s2.691 7 6 7 6-3.14 6-7-2.691-7-6-7Zm0 12c-2.206 0-4-2.243-4-5s1.794-5 4-5 4 2.243 4 5-1.794 5-4 5ZM47 26a3 3 0 1 0-3 3 3 3 0 0 0 3-3Zm-4 0a1 1 0 1 1 1 1 1 1 0 0 1-1-1ZM52 31a3 3 0 1 0 3 3 3 3 0 0 0-3-3Zm0 4a1 1 0 1 1 1-1 1 1 0 0 1-1 1ZM53.707 24.293a1 1 0 0 0-1.414 0l-10 10a1 1 0 1 0 1.414 1.414l10-10a1 1 0 0 0 0-1.414Z" fill="#ffffff" opacity="1" data-original="#000000"></path></g></svg></span>
-            </div>
-            <div class="media-body pl-3">
-              <h3 class="heading">Amenities</h3>
-              <p>-Wifi Access<br>
-                 -Pet Friendly<br>
-                 -Free Coffee<br>
-                 -Assistant Service<br>
-                 -Air Conditioning<br>
-                 -Security Service<br>
-                 -Heating<br>
-                 -Parking</p>
-            </div>
-          </div>   
-              </div>
-          </div>
-      </div>
-  </div>
 </section>
 @endsection
