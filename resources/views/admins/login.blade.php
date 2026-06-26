@@ -54,21 +54,4 @@
         </div>
     </div>
 </div>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const togglePassword = document.querySelector('#togglePassword');
-        const passwordInput = document.querySelector('#adminPassword');
-        const eyeIcon = document.querySelector('#eyeIcon');
-
-        if (togglePassword && passwordInput && eyeIcon) {
-            togglePassword.addEventListener('click', function () {
-                const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
-                passwordInput.setAttribute('type', type);
-                eyeIcon.classList.toggle('fa-eye');
-                eyeIcon.classList.toggle('fa-eye-slash');
-            });
-        }
-    });
-</script>
 @endsection
