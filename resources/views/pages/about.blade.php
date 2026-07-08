@@ -28,7 +28,7 @@
                         <h3 class="card-title h4 fw-bold mb-3">Branches</h3>
                         <p class="card-text text-muted small flex-grow-1">Discover an exquisite bouquet of spa services, where each branch extends a unique blend of pampering, healing, and indulgence, creating a tapestry of wellness for your mind, body, and soul.</p>
                         <div class="mt-4">
-                            <a href="{{ route('home') }}" class="btn btn-primary-custom w-100 py-2">Read more</a>
+                            <a href="{{ route('home') }}" class="btn btn-primary-custom w-100 py-2 text-decoration-underline">Read more</a>
                         </div>
                     </div>
                 </div>      
@@ -41,7 +41,7 @@
                         <h3 class="card-title h4 fw-bold mb-3">Services</h3>
                         <p class="card-text text-muted small flex-grow-1">Immerse yourself in an oasis of well-being with our spa services, where every touch is crafted to harmonize your senses, ensuring a sanctuary of tranquility tailored just for you.</p>
                         <div class="mt-4">
-                            <a href="{{ route('home') }}" class="btn btn-primary-custom w-100 py-2">Read more</a>
+                            <a href="{{ route('home') }}" class="btn btn-primary-custom w-100 py-2 text-decoration-underline">Read more</a>
                         </div>
                     </div>
                 </div>    
@@ -54,7 +54,7 @@
                         <h3 class="card-title h4 fw-bold mb-3">Great Experience</h3>
                         <p class="card-text text-muted small flex-grow-1">Indulge in a realm of tranquility with our spa services, where skilled therapists pamper you with tailored treatments. Book now and elevate your well-being to new heights and Experience the levelup relaxation!</p>
                         <div class="mt-4">
-                            <a href="{{ route('home') }}" class="btn btn-primary-custom w-100 py-2">Read more</a>
+                            <a href="{{ route('home') }}" class="btn btn-primary-custom w-100 py-2 text-decoration-underline">Read more</a>
                         </div>
                     </div>
                 </div>      
