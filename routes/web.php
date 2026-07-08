@@ -74,6 +74,8 @@ Route::group(['prefix'=> 'admin','middleware' => 'auth:admin'], function (){
     Route::get('/all-roomspa', [App\Http\Controllers\admins\adminsController::class, 'allroomspa'])->name('roomspa.all');
     Route::get('/create-roomspa', [App\Http\Controllers\admins\adminsController::class, 'createroomspa'])->name('roomspa.create');
     Route::post('/create-roomspa', [App\Http\Controllers\admins\adminsController::class, 'storeroomspa'])->name('roomspa.store');
+    Route::get('/edit-roomspa/{id}', [App\Http\Controllers\admins\adminsController::class, 'editroomspa'])->name('roomspa.edit');
+    Route::post('/update-roomspa/{id}', [App\Http\Controllers\admins\adminsController::class, 'updateroomspa'])->name('roomspa.update');
     Route::get('/delete-roomspa/{id}', [App\Http\Controllers\admins\adminsController::class, 'deleteroomspa'])->name('roomspa.delete');
 
     //for bookings sa admin side

@@ -161,12 +161,12 @@ class adminsController extends Controller
     }
     }
 
-    public function allroomspa(){
+public function allroomspa(){
 
-        $roomspa = roomspa::select()->orderBy('id', 'asc')->get();
+    $roomspa = roomspa::with('branch')->orderBy('id', 'asc')->get();
+    return view('admins.allroomspa', compact('roomspa'));
 
-        return view('admins.allroomspa', compact ('roomspa'));
-    }
+}
     
     public function createroomspa(){
 
@@ -176,8 +176,6 @@ class adminsController extends Controller
 
    public function storeroomspa(Request $request)
 {
-    // Validate that 'branch_id' is required and must exist in the 'branches' table
-    // Also validate that 'image' is required and of the correct type
     $request->validate([
         'branch_id' => 'required|integer|exists:branches,id',
         'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048', // Image validation
@@ -208,6 +206,22 @@ class adminsController extends Controller
         return redirect()->route('roomspa.all')->with('success', 'New Roomspa Service created successfully');
     }
 }
+
+    public function editroomspa($id) {
+
+        $service = roomspa::find($id);
+        $branches = branches::all(); // Fetch all branches for the dropdown
+        return view('admins.editservices', compact('service', 'branches'));
+    }
+
+    public function updateroomspa(Request $request, $id) {
+
+        $service = roomspa::find($id);
+        $service->update($request->all());
+        if($service){
+            return Redirect::route('roomspa.all')->with(['success' => 'Service updated successfully']);
+    }
+    }
 
 
 public function deleteroomspa($id) {
