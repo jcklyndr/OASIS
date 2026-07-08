@@ -64,11 +64,6 @@
                                             </button>
                                         </div>
 
-                                        <div class="col-12 text-center mt-3">
-                                            <span class="small text-muted">Are you a system manager?</span>
-                                            <a href="{{ route('view.login') }}" class="small text-success fw-semibold text-decoration-none ms-1">Login as Admin</a>
-                                        </div>
-
                                     </div>
                                 </form>
 

@@ -2,8 +2,6 @@
 
 use Illuminate\Support\Facades\Route;
 
-// }); //ETO UNANG WELCOME PAGE YUNG SA LARAVEL Comment na lang if iibahin welcome page tas gagamitin yung new welcome page
-
 
 Auth::routes();
 
@@ -45,9 +43,9 @@ Route::group(['prefix'=> 'branches'], function () {
 //for users
 Route::get('users/my-bookings', [App\Http\Controllers\Users\UsersController::class, 'mybookings'])->name('users.bookings')->middleware('auth:web');
 
-//for admins
-Route::get('admin/login', [App\Http\Controllers\admins\adminsController::class, 'viewlogin'])->name('view.login')->middleware('check.for.login');
-Route::post('admin/login', [App\Http\Controllers\admins\adminsController::class, 'seelogin'])->name('see.login');
+// Admin routes hidden
+Route::get('admin/login', [App\Http\Controllers\admins\adminsController::class, 'viewlogin'])->name('admin.login')->middleware('check.for.login');
+Route::post('admin/login', [App\Http\Controllers\admins\adminsController::class, 'seelogin'])->name('admin.login.submit');
 
 Route::group(['prefix'=> 'admin','middleware' => 'auth:admin'], function (){ 
 

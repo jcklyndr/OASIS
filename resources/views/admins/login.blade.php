@@ -16,7 +16,7 @@
                         </div>
                     @endif
 
-                    <form method="POST" action="{{ route('see.login') }}">
+                    <form method="POST" action="{{ route('admin.login.submit') }}">
                         @csrf
                         
                         <div class="mb-4">
